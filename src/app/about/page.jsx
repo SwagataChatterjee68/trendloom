@@ -1,7 +1,8 @@
 export default function AboutPage() {
   return (
     <section className="bg-white text-gray-800">
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      
+      <div className="max-w-6xl mx-auto px-6 py-32">
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-10">
           About <span className="text-gray-500">Us</span>
@@ -19,7 +20,7 @@ export default function AboutPage() {
           {/* Left - Image */}
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=900&q=80"
+              src="/about.avif"
               alt="Fashion showcase"
               className="rounded-2xl shadow-lg"
             />

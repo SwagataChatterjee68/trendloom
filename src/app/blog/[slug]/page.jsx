@@ -6,7 +6,7 @@ const blogs = [
     id: "1",
     title: "Streetwear Trends 2025",
     desc: "Explore the latest streetwear fashion and how to style it effortlessly.",
-    img: "/images/blog1.jpg",
+    img: "/Streetwear Trends.avif",
     content: `
       Streetwear continues to dominate fashion in 2025, blending comfort with bold aesthetics.
       Oversized hoodies, chunky sneakers, and statement caps remain key essentials.
@@ -23,7 +23,7 @@ const blogs = [
     id: "2",
     title: "Minimalist Wardrobe Essentials",
     desc: "A guide to curating timeless, minimalist outfits that never go out of style.",
-    img: "/images/blog2.jpg",
+    img: "/Wardrobe Essentials.avif",
     content: `
       A minimalist wardrobe focuses on quality over quantity, emphasizing versatile pieces that can be mixed and matched.
       Key essentials include a well-fitted white shirt, tailored trousers, a classic trench coat, and a pair of 
@@ -47,7 +47,7 @@ export default function BlogDetailPage({ params }) {
 
   return (
     <main className="bg-white  min-h-screen">
-      <article className="max-w-3xl mx-auto px-6 py-12 md:py-20">
+      <article className="max-w-3xl mx-auto px-6 py-32 ">
         
         {/* Blog Title */}
         <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900  leading-tight">
@@ -64,7 +64,7 @@ export default function BlogDetailPage({ params }) {
           <img
             src={blog.img}
             alt={blog.title}
-            className="w-full h-[400px] object-cover"
+            className="w-full h-[600px] object-cover"
           />
         </div>
 

@@ -7,25 +7,25 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full fixed top-0 left-0 z-50 bg-white dark:bg-gray-950 shadow-sm">
+    <nav className="w-full fixed top-0 left-0 z-50  bg-gray-950 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         
         {/* Logo */}
-        <Link href="/" className="text-2xl font-extrabold tracking-wide text-gray-900 dark:text-white">
-          Trend<span className="text-rose-500">Loom</span>
+        <Link href="/" className="text-2xl font-extrabold tracking-wide  text-white">
+          Trend<span className="text-gray-500">Loom</span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 font-medium">
-          <Link href="/" className="hover:text-rose-500 transition">Home</Link>
-          <Link href="/about" className="hover:text-rose-500 transition">About</Link>
-          <Link href="/blogs" className="hover:text-rose-500 transition">Blogs</Link>
-          <Link href="/contact" className="hover:text-rose-500 transition">Contact</Link>
+          <Link href="/" className="hover:text-gray-500 transition">Home</Link>
+          <Link href="/about" className="hover:text-gray-500 transition">About</Link>
+          <Link href="/blog" className="hover:text-gray-500 transition">Blogs</Link>
+          <Link href="/contact" className="hover:text-gray-500 transition">Contact</Link>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-900 dark:text-white"
+          className="md:hidden text-white"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -34,31 +34,31 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-950 shadow-md px-6 py-4 space-y-4 font-medium">
+        <div className="md:hidden bg-gray-950 shadow-md px-6 py-4 space-y-4 font-medium">
           <Link
             href="/"
-            className="block hover:text-rose-500 transition"
+            className="block hover:text-gray-500 transition"
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
           <Link
             href="/about"
-            className="block hover:text-rose-500 transition"
+            className="block hover:text-gray-500 transition"
             onClick={() => setIsOpen(false)}
           >
             About
           </Link>
           <Link
-            href="/blogs"
-            className="block hover:text-rose-500 transition"
+            href="/blog"
+            className="block hover:text-gray-500 transition"
             onClick={() => setIsOpen(false)}
           >
             Blogs
           </Link>
           <Link
             href="/contact"
-            className="block hover:text-rose-500 transition"
+            className="block hover:text-gray-500 transition"
             onClick={() => setIsOpen(false)}
           >
             Contact

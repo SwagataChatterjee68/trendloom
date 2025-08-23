@@ -1,7 +1,7 @@
 export default function ContactPage() {
   return (
     <section className="bg-white text-gray-800">
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-32">
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
           Contact <span className="text-gray-500">Us</span>
