@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="w-full fixed top-0 left-0 z-50  bg-gray-950 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        
+
         {/* Logo */}
         <Link href="/" className="text-2xl font-extrabold tracking-wide  text-white">
           Trend<span className="text-gray-500">Loom</span>
@@ -20,7 +20,8 @@ export default function Navbar() {
           <Link href="/" className="hover:text-gray-500 transition">Home</Link>
           <Link href="/about" className="hover:text-gray-500 transition">About</Link>
           <Link href="/blog" className="hover:text-gray-500 transition">Blogs</Link>
-          <Link href="/contact" className="hover:text-gray-500 transition">Contact</Link>
+          <Link href="/blog/create" className="hover:text-gray-500 transition">Create Blog</Link>
+          <Link href="/login" className="hover:text-gray-500 transition">Login</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -57,11 +58,18 @@ export default function Navbar() {
             Blogs
           </Link>
           <Link
-            href="/contact"
+            href="/blog/create"
             className="block hover:text-gray-500 transition"
             onClick={() => setIsOpen(false)}
           >
-            Contact
+            Create Blog
+          </Link>
+          <Link
+            href="/login"
+            className="block hover:text-gray-500 transition"
+            onClick={() => setIsOpen(false)}
+          >
+            Login
           </Link>
         </div>
       )}
