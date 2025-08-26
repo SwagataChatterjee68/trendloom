@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db/db";
 import Order from "@/lib/models/oder.model";
+import User from "@/lib/models/user.model";
+import Product from "@/lib/models/product.model";
 
 // Create new order
 export async function POST(req) {

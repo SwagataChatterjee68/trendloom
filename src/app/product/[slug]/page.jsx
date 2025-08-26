@@ -111,7 +111,7 @@ export default function SingleProductPage() {
           {user?.role === "user" && (
             <button
               className="mt-4 bg-gray-900 text-white py-3 rounded-xl hover:bg-gray-700 transition"
-              onClick={() => router.push("/order")}
+              onClick={() => router.push(`/order/${slug}`)}
             >
               Buy Now
             </button>

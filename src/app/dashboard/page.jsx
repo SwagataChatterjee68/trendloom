@@ -22,6 +22,10 @@ export default function Dashboard() {
     router.push("/dashboard/admin");
   }
 
+  const myOrders=()=>{
+    router.push("/dashboard/user");
+  }
+
   const handleLogout = async () => {
     await fetch("/api/users/logout", { method: "POST" });
     localStorage.removeItem("user");
@@ -61,27 +65,11 @@ export default function Dashboard() {
               >
                 Manage Orders
               </button>
-              <button
-                onClick={() => setActiveTab("manageProducts")}
-                className={`w-full text-left px-4 py-2 rounded-lg ${
-                  activeTab === "manageProducts" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
-                }`}
-              >
-                Manage Products
-              </button>
-              <button
-                onClick={() => setActiveTab("manageBlogs")}
-                className={`w-full text-left px-4 py-2 rounded-lg ${
-                  activeTab === "manageBlogs" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
-                }`}
-              >
-                Manage Blogs
-              </button>
             </>
           ) : (
             <>
               <button
-                onClick={() => setActiveTab("myOrders")}
+                onClick={myOrders}
                 className={`w-full text-left px-4 py-2 rounded-lg ${
                   activeTab === "myOrders" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
                 }`}

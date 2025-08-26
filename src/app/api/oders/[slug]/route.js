@@ -6,7 +6,7 @@ import Order from "@/lib/models/oder.model";
 export async function PUT(req, { params }) {
   try {
     await connectDB ();
-    const { id } = params;
+    const { slug } = params;
     const body = await req.json();
     const { status } = body;
 
@@ -15,7 +15,7 @@ export async function PUT(req, { params }) {
     }
 
     const updatedOrder = await Order.findByIdAndUpdate(
-      id,
+      slug,
       { status },
       { new: true }
     );

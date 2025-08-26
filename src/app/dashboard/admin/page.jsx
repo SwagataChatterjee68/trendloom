@@ -19,7 +19,7 @@ export default function AdminOrdersPage() {
 
   const handleStatusUpdate = async (orderId, status) => {
     try {
-      const res = await axios.put(`/api/orders/${orderId}`, { status });
+      const res = await axios.put(`/api/oders/${orderId}`, { status });
       if (res.data.success) {
         toast.success(`Order ${status}`);
         fetchOrders(); // refresh list
@@ -35,7 +35,7 @@ export default function AdminOrdersPage() {
   }, []);
 
   return (
-    <div className="p-6 text-black">
+    <div className="p-20 text-black bg-white h-screen ">
       <h1 className="text-2xl font-bold mb-4">Orders Dashboard</h1>
       <table className="w-full border">
         <thead>
@@ -59,7 +59,7 @@ export default function AdminOrdersPage() {
                   <>
                     <button
                       onClick={() => handleStatusUpdate(order._id, "approved")}
-                      className="px-3 py-1 bg-green-600 text-white rounded mr-2"
+                      className="px-3 py-1 bg-green-600 text-white rounded mr-2 cursor-pointer "
                     >
                       Approve
                     </button>
