@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/dbConnect";
+import connectDB from "@/lib/db/db";
 import Order from "@/lib/models/oder.model";
 
 // 📌 Update order status (approve / reject)
 export async function PUT(req, { params }) {
   try {
-    await dbConnect();
+    await connectDB ();
     const { id } = params;
     const body = await req.json();
     const { status } = body;
