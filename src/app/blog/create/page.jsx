@@ -23,7 +23,8 @@ export default function CreateBlogPage() {
       title,
       category,
       content,
-      image
+      image,
+      slug:title
     }),
   });
   toast.success("Post Created Successfully")

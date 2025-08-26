@@ -23,6 +23,11 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
+    },
+    slug:{
+      type:String,
+      unique:true,
+      required:true
     }
   },
   { timestamps: true }

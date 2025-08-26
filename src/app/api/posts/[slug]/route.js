@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db/db";
 import Post from "@/lib/models/post.model";
+import User from "@/lib/models/user.model";
 
-export async function GET(req, { params }) {
+export async function GET(req, context) {
   await connectDB();
 
   try {
-    const { id } = params;
+    const { slug } = await context.params;
 
-    const post = await Post.findById(id).populate("userId", "email");
+    const post = await Post.findById(slug).populate("userId", "email");
 
     if (!post) {
       return NextResponse.json(

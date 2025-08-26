@@ -8,7 +8,7 @@ connectDB()
 
 export async function POST(request) {
   try {
-    const { username, email, password } = await request.json();
+    const { username, email, password,role } = await request.json();
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -27,6 +27,7 @@ export async function POST(request) {
       username,
       email,
       password: hashedPassword,
+      role
     });
 
     await newUser.save();

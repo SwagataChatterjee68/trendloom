@@ -1,6 +1,6 @@
 // // src/app/api/posts/create-post/route.js
 // import connectDB from "@/lib/db/db";
-// import Post from "@/lib/models/post.model";
+// import Product from "@/lib/models/product.model";
 // import jwt from "jsonwebtoken";
 // import { NextResponse } from "next/server";
 
@@ -31,9 +31,9 @@
 //     const userId = decoded.id; // userId from token
 
 //     // 3. Get blog data from request
-//     const { title, category, content,image,slug } = await req.json();
+//     const { name,description, category,  price,image,slug } = await req.json();
 
-//     if (!title || !category || !content) {
+//     if (!name || !category || !description || !price || !image ) {
 //       return NextResponse.json(
 //         { success: false, message: "All fields are required" },
 //         { status: 400 }
@@ -41,21 +41,22 @@
 //     }
 
 //     // 4. Create blog post with userId
-//     const newPost = await Post.create({
-//       title,
+//     const newProduct = await Product.create({
+//       name,
 //       category,
-//       content,
+//       description,
 //       userId,
+//       price,
 //       image,
 //       slug
 //     });
 
 //     return NextResponse.json(
-//       { success: true, message: "Post created successfully", post: newPost },
+//       { success: true, message: "Product created successfully", product: newProduct },
 //       { status: 201 }
 //     );
 //   } catch (error) {
-//     console.error("Create Post Error:", error);
+//     console.error("Create product Error:", error);
 //     return NextResponse.json(
 //       { success: false, message: "Server error" },
 //       { status: 500 }
@@ -64,10 +65,10 @@
 // }
 
 
+
 // src/app/api/posts/create-post/route.js
 import connectDB from "@/lib/db/db";
-import Post from "@/lib/models/post.model";
-import User from "@/lib/models/user.model";  // ✅ Make sure to import User model
+import Product from "@/lib/models/product.model";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
@@ -95,43 +96,40 @@ export async function POST(req) {
       );
     }
 
-    const userId = decoded.id; 
-
-    // 3. Check if user is admin
-    const user = await User.findById(userId);
-    if (!user || user.role !== "admin") {
+    // 3. Role check
+    if (decoded.role !== "admin") {
       return NextResponse.json(
-        { success: false, message: "Only admins can create blog posts" },
+        { success: false, message: "Only admin can create product" },
         { status: 403 }
       );
     }
 
-    // 4. Get blog data
-    const { title, category, content, image, slug } = await req.json();
-
-    if (!title || !category || !content) {
+    // 4. Get product data
+    const { name, description, category, price, image, slug } = await req.json();
+    if (!name || !category || !description || !price || !image) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
         { status: 400 }
       );
     }
 
-    // 5. Create blog post
-    const newPost = await Post.create({
-      title,
+    // 5. Create product
+    const newProduct = await Product.create({
+      name,
       category,
-      content,
-      userId,
+      description,
+      price,
       image,
       slug,
+      userId: decoded.id,
     });
 
     return NextResponse.json(
-      { success: true, message: "Post created successfully", post: newPost },
+      { success: true, message: "Product created successfully", product: newProduct },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Create Post Error:", error);
+    console.error("Create product Error:", error);
     return NextResponse.json(
       { success: false, message: "Server error" },
       { status: 500 }

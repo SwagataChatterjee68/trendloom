@@ -9,12 +9,20 @@ connectDB();
 
 export async function POST(req) {
   try {
-    const { email, password } = await req.json();
+    const { email, password, role } = await req.json();
 
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
       return NextResponse.json(
         { success: false, message: "User does not exist" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Check role (important for separate User/Admin login)
+    if (role && existingUser.role !== role) {
+      return NextResponse.json(
+        { success: false, message: `Invalid role: ${role}` },
         { status: 400 }
       );
     }
@@ -27,19 +35,25 @@ export async function POST(req) {
       );
     }
 
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: existingUser._id, role: existingUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     const response = NextResponse.json({
       success: true,
       message: "Login successful",
-      user: { id: existingUser._id, email: existingUser.email },
+      user: {
+        id: existingUser._id,
+        email: existingUser.email,
+        role: existingUser.role,
+      },
     });
 
     response.cookies.set("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // secure only in prod
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
       maxAge: 24 * 60 * 60, // 1 day

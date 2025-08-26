@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import { ToastContainer } from "react-toastify";
+import NavbarWrapper from "@/component/NavbarWrapper";
 
 
 const geistSans = Geist({
@@ -27,7 +28,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Navbar />
+         <NavbarWrapper/>
           {children}
           <Footer />
            <ToastContainer/>
