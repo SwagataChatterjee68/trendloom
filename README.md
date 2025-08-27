@@ -26,6 +26,8 @@ Authentication & User
 
  Delete User.
 
+ categorised the prooducts
+
 Cart System
 
  Cart schema created (separate from User).
