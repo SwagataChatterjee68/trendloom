@@ -6,21 +6,34 @@ import Link from "next/link";
 
 export default function ProductListPage() {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [category, setCategory] = useState("");
+
+  const categories = [
+    { label: "All", value: "" },
+    { label: "Electronics", value: "electronics" },
+    { label: "Clothing", value: "clothing" },
+    { label: "Accessories", value: "accessories" },
+    { label: "Books", value: "books" },
+    { label: "Jewelry", value: "jewelry" },
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get("/api/product/get-product");
-        console.log(res.data); // check the API response
-        // Adjust based on how your API returns products
+
         if (Array.isArray(res.data)) {
           setProducts(res.data);
+          setFilteredProducts(res.data);
         } else if (res.data.success && Array.isArray(res.data.products)) {
           setProducts(res.data.products);
+          setFilteredProducts(res.data.products);
         } else {
           setProducts([]);
+          setFilteredProducts([]);
         }
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -33,15 +46,34 @@ export default function ProductListPage() {
     fetchProducts();
   }, []);
 
-  if (loading) return <p className="text-center mt-20">Loading products...</p>;
-  if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
+  // filter products by category
+  useEffect(() => {
+    if (category === "") {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(
+        products.filter((p) => p.category?.toLowerCase() === category)
+      );
+    }
+  }, [category, products]);
+
+  if (loading)
+    return (
+      <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+        <p className="text-center text-black text-xl">Loading products...</p>
+      </div>
+    );
+
+  if (error)
+    return <p className="text-center mt-20 text-red-500">{error}</p>;
+
   if (products.length === 0)
     return <p className="text-center mt-20">No products found.</p>;
 
   return (
     <main className="bg-gray-100 min-h-screen py-20 px-6">
       {/* Page Title */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-10">
         <h1 className="text-5xl font-extrabold text-gray-800 tracking-tight">
           Our <span className="text-gray-600">Products</span>
         </h1>
@@ -50,9 +82,27 @@ export default function ProductListPage() {
         </p>
       </div>
 
+      {/* Categories Section */}
+      <div className="max-w-7xl mx-auto mb-12 flex flex-wrap justify-center gap-4">
+        {categories.map((cat) => (
+          <button
+            key={cat.value}
+            onClick={() => setCategory(cat.value)}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition 
+              ${
+                category === cat.value
+                  ? "bg-gray-800 text-white shadow-md"
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-200"
+              }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Link
             key={product._id}
             href={`/product/${product._id}`}
@@ -64,7 +114,7 @@ export default function ProductListPage() {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-96 h-96 object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-82 p-6 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
             )}

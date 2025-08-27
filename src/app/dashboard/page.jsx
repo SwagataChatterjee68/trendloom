@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -18,11 +19,11 @@ export default function Dashboard() {
   }, [router]);
 
   const manageOrder = () => {
-    
+
     router.push("/dashboard/admin");
   }
 
-  const myOrders=()=>{
+  const myOrders = () => {
     router.push("/dashboard/user");
   }
 
@@ -31,6 +32,28 @@ export default function Dashboard() {
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
+
+  const handleDelete = async () => {
+    
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      confirm("Are you sure you want to delete your account?");
+      const res = await fetch(`/api/users/${user.id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success) {
+        localStorage.removeItem("user");
+        toast.success("User deleted successfully");
+        window.location.href = "/register";
+      } else {
+        toast.error(data.message || "Failed to delete user");
+      }
+    } catch (err) {
+      toast.error("Failed to delete user");
+    }
+  };
+
 
   if (!user) return <p className="text-center mt-20">Loading...</p>;
 
@@ -47,9 +70,8 @@ export default function Dashboard() {
         <nav className="flex-1 p-4 space-y-2">
           <button
             onClick={() => setActiveTab("profile")}
-            className={`w-full text-left px-4 py-2 rounded-lg ${
-              activeTab === "profile" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
-            }`}
+            className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "profile" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
+              }`}
           >
             Profile
           </button>
@@ -59,9 +81,8 @@ export default function Dashboard() {
               <button
                 onClick={manageOrder}
 
-                className={`w-full text-left px-4 py-2 rounded-lg ${
-                  activeTab === "manageOrders" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
-                }`}
+                className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "manageOrders" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
+                  }`}
               >
                 Manage Orders
               </button>
@@ -70,9 +91,8 @@ export default function Dashboard() {
             <>
               <button
                 onClick={myOrders}
-                className={`w-full text-left px-4 py-2 rounded-lg ${
-                  activeTab === "myOrders" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
-                }`}
+                className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "myOrders" ? "bg-gray-200 font-medium" : "hover:bg-gray-100"
+                  }`}
               >
                 My Orders
               </button>
@@ -93,8 +113,71 @@ export default function Dashboard() {
         {activeTab === "profile" && (
           <div className="bg-white p-6 rounded-xl shadow-md">
             <h3 className="text-xl font-semibold mb-4">My Profile</h3>
-            <p className="text-gray-600">Email: {user.email}</p>
-            <p className="text-gray-600">Role: {user.role}</p>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const user = JSON.parse(localStorage.getItem("user"));
+                const res = await fetch(`/api/users/${user.id}`, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    username: e.target.username.value,
+                    email: e.target.email.value,
+                    password: e.target.password.value,
+                  }),
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                  toast.success("Profile updated!");
+                  localStorage.setItem("user", JSON.stringify(data.user));
+                  setUser(data.user);
+                } else {
+                  toast.error(data.message || "Update failed");
+                }
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="block text-gray-600">Username</label>
+                <input
+                  name="username"
+                  defaultValue={user.username}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600">Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  defaultValue={user.email}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600">Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Enter new password"
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              >
+                Update Profile
+              </button>
+
+            </form>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mt-3"
+            >
+              Delete Profile
+            </button>
           </div>
         )}
 

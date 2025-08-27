@@ -57,7 +57,52 @@ export default function SingleProductPage() {
     }
   };
 
-  if (loading) return <p className="text-center mt-20">Loading...</p>;
+
+
+ const addToCart = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    toast.error(" Please log in to add products to your cart.");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const res = await fetch(`/api/cart/${slug}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: user._id || user.id, // match backend
+        product: slug,             // match backend
+        quantity: 1,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success(" Product added to cart!");
+      router.push(`/cart/${user.id}`);
+    } else {
+      toast.error(`${data.message}`);
+    }
+  } catch (err) {
+    console.error("Add to cart error:", err);
+    toast.error(" Something went wrong.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+  if (loading) return (
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+      <p className="text-center text-black text-xl">Loading products...</p>
+    </div>
+  );
   if (error) return <p className="text-center mt-20 text-red-500">{error}</p>;
 
   return (
@@ -109,12 +154,25 @@ export default function SingleProductPage() {
 
           {/* 👇 Show Buy Now for normal users */}
           {user?.role === "user" && (
-            <button
-              className="mt-4 bg-gray-900 text-white py-3 rounded-xl hover:bg-gray-700 transition"
-              onClick={() => router.push(`/order/${slug}`)}
-            >
-              Buy Now
-            </button>
+
+            <div className="flex gap-6">
+              <button
+                className="mt-4 bg-gray-900 text-white py-3  px-4  rounded-xl hover:bg-gray-700 transition"
+                onClick={() => router.push(`/order/${slug}`)}
+              >
+                Buy Now
+              </button>
+              <button
+                onClick={addToCart}
+
+                disabled={loading}
+                className="mt-4 bg-gray-900 text-white py-3  px-4  rounded-xl hover:bg-gray-700 transition disabled:opacity-50"
+              >
+                {loading ? "Adding..." : "Add to Cart"}
+              </button>
+
+            </div>
+
           )}
         </div>
       </div>

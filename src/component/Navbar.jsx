@@ -8,7 +8,7 @@ export default function Navbar({ user }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const isLoggedIn = !!user;
-  const isAdmin = user?.role === "admin"; // ✅ Check role
+  const isAdmin = user?.role === "admin"; 
 
   return (
     <nav className="w-full fixed top-0 left-0 z-50 bg-gray-950 shadow-sm">
@@ -26,15 +26,13 @@ export default function Navbar({ user }) {
         <div className="hidden md:flex space-x-8 font-medium text-white">
           <Link href="/" className="hover:text-gray-500 transition">Home</Link>
           <Link href="/about" className="hover:text-gray-500 transition">About</Link>
-          <Link href="/blog" className="hover:text-gray-500 transition">Blogs</Link>
           <Link href="/product" className="hover:text-gray-500 transition">Products</Link>
 
           {isLoggedIn ? (
             <>
-              {/* ✅ Show only for admins */}
+              {/* Show only for admins */}
               {isAdmin && (
                 <>
-                  <Link href="/blog/create" className="hover:text-gray-500 transition">Create Blog</Link>
                   <Link href="/product/create" className="hover:text-gray-500 transition">Create Product</Link>
                 </>
               )}
@@ -59,15 +57,13 @@ export default function Navbar({ user }) {
         <div className="md:hidden bg-gray-950 shadow-md px-6 py-4 space-y-4 font-medium text-white">
           <Link href="/" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">Home</Link>
           <Link href="/about" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">About</Link>
-          <Link href="/blog" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">Blogs</Link>
           <Link href="/product" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">Products</Link>
 
           {isLoggedIn ? (
             <>
-              {/* ✅ Show only for admins */}
+              {/* Show only for admins */}
               {isAdmin && (
                 <>
-                  <Link href="/blog/create" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">Create Blog</Link>
                   <Link href="/product/create" onClick={() => setIsOpen(false)} className="block hover:text-gray-500 transition">Create Product</Link>
                 </>
               )}
